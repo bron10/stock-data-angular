@@ -1,0 +1,6 @@
+<div class="row" *ngFor="let rowDatum of rowData">
+	<div class="col-md-6 col-xs-6">{{rowDatum[0]}}</div>
+	<div class="col-md-6 col-xs-6"><span [ngClass]="{'success': rowDatum[2]=='incr', 'danger': rowDatum[2]=='dec'}">{{rowDatum[1]}}</span></div>
+
+</div>
+
