@@ -1,15 +1,13 @@
 <div class="container">
-  <h2>Stock Table</h2>
+  <h2>Stock Table</h2><button (click)="getStockData()" class="btn btn-primary">Get realtime(Dummy) stock Data!</button>
   <p>The Table describes realtime price</p>            
   
 	<div class="row">
 	  <div class="col-md-6 col-xs-6">Name</div>
 	  <div class="col-md-6 col-xs-6">Price</div>
 	</div>
-	<row [rowData]="defaultTemplateData" [updatedRowData]="updatedTemplateData">
+	<row [rowData]="defaultTemplateData">
 	</row>
 </div>
 
-<button (click)="getStockData()">
-	  Click!
-	</button>
+

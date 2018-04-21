@@ -14,7 +14,7 @@ export class RowComponent implements OnChanges{
   @Input() updatedRowData;
   constructor(private _stockService : StockService){
     //console.log("_.map", _);
-    console.log(this.rowData)
+    //console.log(this.rowData)
   }
 
   changeClass(currentValue, previousValue){
@@ -24,30 +24,60 @@ export class RowComponent implements OnChanges{
       return false
   }
 
+
   ngOnChanges(changes){
     let self = this;
-    //changes.updatedRowData.previousValue;
-    let currentStockValues = _.fromPairs(changes.updatedRowData.currentValue);
-    if(_.isEmpty(currentStockValues)){
+
+    //console.log("changes", changes);
+    if(_.isEmpty(changes.rowData.previousValue))
       return;
-    }
-    //console.log("currentValueObject", currentValueObject);
-    this.rowData = _.map(this.rowData, (row)=>{
+
+
+    let previousStockValues = _.fromPairs(changes.rowData.previousValue);
+    let currentStockValues = _.fromPairs(changes.rowData.currentValue);
+
+    const constantStockData = self._stockService.getStockDataSet();
+    this.rowData = this.rowData.map((row)=>{
       let stockName = row[0];
       let currentStockValue = currentStockValues[stockName];
-      //console.log("currentStockValue", currentStockValue > row[1])
-      if(currentStockValue > row[1]){
-        row[2] = 'incr';
-      }else
-        row[2] = 'dec';
-      if(currentStockValue){
-        row[1] = currentStockValue;  
+      let previousStockValue = previousStockValues[stockName];
+      //console.log("previousStockValue, currentStockValue", previousStockValue, currentStockValue)
+      console.log("row", row);
+      if(currentStockValue == previousStockValue){
+        row[2] = '';
       }
-      //row.push()
+      if(currentStockValue > previousStockValue){
+        row[2] = 'incr';
+        //row[1] = JSON.parse(currentStockValue);
+      }
+      if(currentStockValue < previousStockValue){
+        row[2] = 'dec';
+        //row[1] = JSON.parse(currentStockValue);
+      }
+
+      console.log("console.log", row);
       return row;
     })
+    // if(_.isEmpty(currentStockValues)){
+    //   return;
+    // }
+    // //console.log("currentValueObject", currentValueObject);
+    // this.rowData = _.map(self.rowData, (row)=>{
+    //   let stockName = row[0];
+    //   let currentStockValue = currentStockValues[stockName];
+    //   console.log("currentStockValue", currentStockValue , row[1])
+    //   if(currentStockValue > row[1]){
+    //     row[2] = 'incr';
+    //   }else
+    //     row[2] = 'dec';
+    //   if(currentStockValue){
+    //     row[1] = currentStockValue;  
+    //   }
+    //   //row.push()
+    //   return row;
+    // })
 
-    console.log("rowData", this.rowData);
+    //console.log("rowData", this.rowData);
 
 
     // changes.updatedRowData.currentValue.map((val)=>{
